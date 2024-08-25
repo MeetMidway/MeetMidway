@@ -14,9 +14,9 @@ Ensure you have the following installed:
 - **Node.js**: [Download Node.js](https://nodejs.org/en/download/)
 - **npm**: This comes with Node.js, but you can update it with `npm install -g npm`
 
-### Installation and Setup
+## Installation and Setup
 
-#### Setting up backend (Flask)
+### Setting up backend (Flask)
 
 1. Navigate to the `backend` directory and create virtal environment
    ```bash
@@ -46,7 +46,7 @@ Ensure you have the following installed:
    flask run
    ```
 
-#### Setting up frontend (React)
+### Setting up frontend (React)
 1. in another terminal cd into frontend and install packages
    ```
    npm i
@@ -59,6 +59,46 @@ Ensure you have the following installed:
    ```
    npm start
    ```
+
+## PR etiquette
+Ensure all PRs are directed to development branch, squash all commits before making PR and ensure to provide a summary of your changes and perform the required tests to ensure everything works properly
+
+### squashing commits
+Why squash? This keeps our git log clean, and if we ever have to roll back there aren't separate commits we have to filter through from one PR to find the break in the link
+
+once you've made a commit and pushed it to your branch:
+   ```
+   git rebase -i development
+   ```
+
+press "i" to start editing
+
+you should see something like this:
+
+pick <commit 1>
+pick <commit 2>
+
+change the keyword pick to "s" for commits after the first commit
+
+pick <commit 1>
+s <commmit 2>
+
+to close and save the editor:
+
+:x
+
+Changing the first commit message of the new editor that pops up now will change the commit message of the squashed commits, if you don't need to change it or have, then same exit:
+
+:x
+
+to push the squashed commits:
+
+git push --force
+
+
+
+
+
 
    
    
