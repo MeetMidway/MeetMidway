@@ -12,7 +12,6 @@ import PreferencesList from "./Preferences/List";
 import AddIcon from "../assets/icons/AddIcon";
 import { Modal } from "./utility_components";
 import AutoCompleteLocation from "./MapSystem/AutoCompleteLocation";
-import Loading from "./Loading";
 
 export default function ManageAccount() {
   const nav = useNavigate();
@@ -22,7 +21,6 @@ export default function ManageAccount() {
   const [firstName, setFirstName] = useState(user?.first_name);
   const [lastName, setLastName] = useState(user?.last_name);
   const [location, setLocation] = useState(user?.location);
-  const [loading, setLoading] = useState(false);
   const [preferences, setPreferences] = useState(user?.preferences);
   const [selectedPref, setSelectedPref] = useState(user?.preferences);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -33,7 +31,6 @@ export default function ManageAccount() {
 
   async function handleUpdate() {
     if (checkFields({ email, firstName, lastName, location })) {
-      setLoading(true);
       const data = {
         first_name: firstName,
         lastName: lastName,
@@ -41,14 +38,12 @@ export default function ManageAccount() {
         location: location,
         preferences: selectedPref,
       };
-
-      setLoading(true)
       const userRef = doc(db, "users", user.id);
       await updateDoc(userRef, data);
       
 
       //if teh email changes, update the auth
-      if (email != auth.currentUser.email) {
+      if (email !== auth.currentUser.email) {
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
 
         if (!emailPattern.test(email)) {
@@ -70,8 +65,6 @@ export default function ManageAccount() {
             }, 5000);
           });
       }
-      setLoading(false)
-
       !!error || setUpdate(true); // Indicate that the update is successful
       console.log(error);
       setTimeout(() => {
@@ -86,7 +79,6 @@ export default function ManageAccount() {
     }
   }
 
-  console.log(selectedPref);
 
   const addPreference = () => {
     // check if the new preference is not empty and not already in the list (case-insensitive) by name key
@@ -119,8 +111,6 @@ export default function ManageAccount() {
       });
   }
 
-  console.log(update);
-
   return (
     <div className="w-full h-full bg-base-white flex flex-col lg:gap-y-5 2xl:gap-y-10 items-center">
       <div className="bg-white h-12 smx:h-16 2xl:h-20 w-full shadow flex items-center justify-between px-4 gap-x-4 ">
@@ -140,7 +130,7 @@ export default function ManageAccount() {
       <div className="flex flex-col gap-y-5 px-10 items-center w-full pt-2 pb-3 lg:pb-0 lg:pt-0">
         
           <div className={`${(update || error) ? "visible":"invisible"} opacity-50 text-center font-semibold lg:text-xl`}>
-            <h3 className={update ? "text-lime":"text-red"} >{update && "updated successfully!" || error || "placeholder"}</h3>
+            <h3 className={update ? "text-lime":"text-red"} >{(update && "updated successfully!") || error || "placeholder"}</h3>
           </div>
         
         <TextInput

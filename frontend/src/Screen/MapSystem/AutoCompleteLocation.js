@@ -1,6 +1,5 @@
 import { useRef, useEffect } from "react";
 import RouteIcon from "../../assets/icons/RouteIcon";
-import { useJsApiLoader } from "@react-google-maps/api";
 import { useGoogleMaps } from "../../contexts/MapsContext";
 
 const AutoCompleteLocation = ({
@@ -15,14 +14,15 @@ const AutoCompleteLocation = ({
 
   // Load Google Maps JavaScript API
   const { isLoaded } = useGoogleMaps();
-  const options = {
-    componentRestrictions: { country: "ca" },
-    fields: ["address_components", "geometry", "icon", "name"],
-    types: ["address"],
-  };
 
   useEffect(() => {
     if (isLoaded) {
+      const options = {
+        componentRestrictions: { country: "ca" },
+        fields: ["address_components", "geometry", "icon", "name"],
+        types: ["address"],
+      };
+    
       autoCompleteRef.current = new window.google.maps.places.Autocomplete(
         inputRef.current,
         options
@@ -54,7 +54,7 @@ const AutoCompleteLocation = ({
       });
 
     }
-  }, [isLoaded, idx, options, onChange]);
+  }, [isLoaded, idx, onChange]);
   
 
   return (

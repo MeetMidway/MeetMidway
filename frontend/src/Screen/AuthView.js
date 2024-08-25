@@ -18,10 +18,8 @@ import { UserContext } from "../contexts/UserProvider";
 
 function AuthView() {
   const navigate = useNavigate();
-  const [animate, setAnimate] = useState(false);
 
   const [error, setError] = useState("");
-  const [auth, setAuth] = useState("");
   const [user] = useContext(UserContext);
   const [showPswd, setShowPswd] = useState(false);
 
@@ -40,17 +38,14 @@ function AuthView() {
 
   const hidePswd = () => {
     setShowPswd(!showPswd);
-
-    console.log(showPswd);
   };
 
   useEffect(() => {
     if (user) {
       navigate(user?.signInFirstTime ? "/add-preferences" : "/");
     }
-  }, [user]);
+  }, [user, navigate]);
 
-  console.log(location);
 
   return (
     <div className="h-full w-full flex flex-col justify-center items-center relative">

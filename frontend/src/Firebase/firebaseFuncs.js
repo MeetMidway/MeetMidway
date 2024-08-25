@@ -94,9 +94,8 @@ export const signInWithGoogle = async ({setError}) => {
       console.log("New user document created in Firestore:", data);
     }
   } catch (error) {
-    const errorCode = error.code;
     const errorMessage = error.message;
-    setError("Error signing in with Google");
+    setError(errorMessage);
     setTimeout(() => {
       setError(""); // Reset after 5 seconds
     }, 3000);

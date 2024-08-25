@@ -24,26 +24,18 @@ export default function HomeView() {
   ]);
 
   const [user] = useContext(UserContext);
-
   const [stage, setStage] = useState(1);
-
   const [showSteps, setShowSteps] = useState(false);
-
   const [numFriends, setNumFriends] = useState(2);
-
   const [addresses, setAddresses] = useState([]);
-
   const [showYellowSwig, setShowYellowSwig] = useState(false);
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-
   const [itinerary, setItinerary] = useState();
-
   const [paths, setPaths] = useState([]);
-
   const [selectedItinerary, setSelectedItinerary] = useState(0);
   const [loading, setLoading] = useState(false);
 
+  //managing "page changes"
   useEffect(() => {
     if (stage === 1) {
       setSteps((prevSteps) => [
@@ -88,7 +80,7 @@ export default function HomeView() {
         { ...prevSteps[1], stepCompleted: true },
       ]);
     }
-  }, [stage, numFriends, user.location]);
+  }, [stage, numFriends, user, user.location]);
 
 
   const handleChange = (val, index) => {
@@ -99,12 +91,9 @@ export default function HomeView() {
     });
   };
 
-  console.log(addresses)
-
 
   const pinColors = ["#F61818", "#FDBF49", "#004AAD", "#00C520"];
 
-  //format like [{step: "blah", stepCompleted: boolean}]
 
   const removeAddress = () => {
     setNumFriends(numFriends - 1);
@@ -147,7 +136,6 @@ export default function HomeView() {
         const response = await axios.post("get_itinerary", data);
         // Handle the response data
         console.log("Generated Itinerary:", response.data);
-        console.log(response.data)
         setItinerary(response.data);
         setStage(stage + 1);
       } catch (error) {

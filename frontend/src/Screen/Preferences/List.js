@@ -1,12 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 
 export default function PreferencesList({
   preferences,
   setPreferences,
   selectedPrefs,
   setSelectedPref,
-  height,
-  width,
 }) {
   const colors = [
     { selected: "#FF3A3A", unselected: "#FBAAAA" },
@@ -47,7 +45,6 @@ export default function PreferencesList({
 
   const PreferenceItem = ({
     idx,
-    children,
     isRanked,
     onClick,
     color,

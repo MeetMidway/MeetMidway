@@ -1,10 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import {
-  GoogleMap,
-  useJsApiLoader,
-  MarkerF,
-  DirectionsRenderer,
-} from "@react-google-maps/api";
+import { GoogleMap, MarkerF, DirectionsRenderer } from "@react-google-maps/api";
 import BluePinIcon from "../../assets/icons/PinIcons/BluePinIcon.svg";
 import RedPinIcon from "../../assets/icons/PinIcons/RedPinIcon.svg";
 import GreenPinIcon from "../../assets/icons/PinIcons/GreenPinicon.svg";
@@ -13,7 +8,14 @@ import MidpointIcon from "../../assets/icons/PinIcons/MidpointIcon.svg";
 import ItineraryIcon from "../../assets/icons/PinIcons/ItineraryIcon.svg";
 import { useGoogleMaps } from "../../contexts/MapsContext";
 
-function Map({ friendsAddresses, itinerary, containerStyle, stage, paths, setSelected }) {
+function Map({
+  friendsAddresses,
+  itinerary,
+  containerStyle,
+  stage,
+  paths,
+  setSelected,
+}) {
   const { isLoaded, loadError } = useGoogleMaps();
 
   const strokeColors = ["#FF0000", "#FDBF49", "#2985FF", "#2CCE59"];
@@ -23,12 +25,11 @@ function Map({ friendsAddresses, itinerary, containerStyle, stage, paths, setSel
   const [waypointResults, setWaypointResults] = useState([]);
   const [currentLocation, setCurrentLocation] = useState(null);
 
+
   const onLoad = useCallback(
     (map) => {
       setMap(map);
       const bounds = new window.google.maps.LatLngBounds();
-
-      console.log(friendsAddresses);
 
       if (friendsAddresses) {
         friendsAddresses.map(
@@ -44,7 +45,7 @@ function Map({ friendsAddresses, itinerary, containerStyle, stage, paths, setSel
         map.fitBounds(bounds);
       }
     },
-    [friendsAddresses, stage]
+    [friendsAddresses]
   );
 
   const onUnmount = useCallback(() => {
@@ -93,7 +94,7 @@ function Map({ friendsAddresses, itinerary, containerStyle, stage, paths, setSel
   }, [map, currentLocation, itinerary, friendsAddresses, stage]);
 
   const fetchWaypointSteps = useCallback(
-    async ({ origin, destination }) => {
+    async ( origin, destination ) => {
       if (!map || !currentLocation || stage === 1) return;
 
       const directionsService = new window.google.maps.DirectionsService();
@@ -134,14 +135,10 @@ function Map({ friendsAddresses, itinerary, containerStyle, stage, paths, setSel
       if (stage > 1) {
         fetchDirections();
 
-        !!paths && paths?.directions?.map((place, index) => {
-          const origin = place.origin;
-          const destination = place.destination;
-
-          console.log(origin, destination);
-
-          fetchWaypointSteps({ origin, destination });
-        });
+        !!paths &&
+          paths?.directions?.map((place, index) =>
+            fetchWaypointSteps(place.origin, place.destination)
+          );
       }
     }
   }, [
@@ -152,6 +149,7 @@ function Map({ friendsAddresses, itinerary, containerStyle, stage, paths, setSel
     fetchDirections,
     fetchWaypointSteps,
     stage,
+    paths
   ]);
 
   useEffect(() => {
