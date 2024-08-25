@@ -9,7 +9,7 @@ import YellowSwig from "../assets/images/pref-swiggles/YellowSwig";
 import BlueSwig from "../assets/images/pref-swiggles/BlueSwig";
 import "./screenstyles.css";
 import ArrowRight from "../assets/icons/ArrowRightIcon";
-import { auth, db } from "../Firebase/Firebase";
+import { db } from "../Firebase/Firebase";
 import { updateDoc, doc } from "firebase/firestore";
 import { UserContext } from "../contexts/UserProvider";
 import { useNavigate } from "react-router-dom";
@@ -20,14 +20,8 @@ export default function PreferencesView() {
   const [newPreference, setNewPreference] = useState("");
   const [selectedPref, setSelectedPref] = useState([]);
   const [error, setError] = useState("");
-
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const [loading, setLoading] = useState(false);
-
   const [user] = useContext(UserContext);
-
-  console.log(user);
 
   const addPreference = () => {
     // check if the new preference is not empty and not already in the list (case-insensitive) by name key
@@ -59,9 +53,6 @@ export default function PreferencesView() {
 
   async function handleUpdate() {
     if (selectedPref.length > 0) {
-      setLoading(true);
-      console.log("wlroini");
-
       // Update only the preferences field
       const userRef = doc(db, "users", user.id);
       console.log(userRef);
@@ -71,10 +62,9 @@ export default function PreferencesView() {
       });
 
       console.log("Preferences updated");
-      setLoading(false); // Ensure you stop loading after updates
       nav("/");
     } else {
-      console.log("nope");
+      console.log("preferences not updated")
     }
   }
 
