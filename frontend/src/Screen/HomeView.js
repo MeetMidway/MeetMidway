@@ -205,8 +205,6 @@ export default function HomeView() {
     );
   };
 
-  console.log(itinerary)
-
   return (
     <div className="w-full h-full flex flex-col relative">
       <div className="bg-white h-40 w-full relative pb-3">
